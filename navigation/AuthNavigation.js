@@ -18,8 +18,8 @@ export default () => (
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen name="Home" component={AuthHome} />
       <Stack.Screen name="LogIn" component={LogIn} />
+      <Stack.Screen name="Home" component={AuthHome} />
       <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>
   </NavigationContainer>

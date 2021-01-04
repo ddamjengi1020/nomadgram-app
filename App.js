@@ -6,6 +6,7 @@ import { persistCache, AsyncStorageWrapper } from "apollo3-cache-persist";
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
+import Toast from "react-native-toast-message";
 import NavController from "./components/NavController";
 import { AuthProvider } from "./components/AuthContext";
 import apolloClientOptions from "./apollo";
@@ -53,6 +54,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <AuthProvider checkLoggedIn={initLoggedIn}>
           <NavController />
+          <Toast ref={(ref) => Toast.setRef(ref)} />
         </AuthProvider>
       </ThemeProvider>
     </ApolloProvider>
