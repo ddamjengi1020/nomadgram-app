@@ -7,6 +7,7 @@ import {
 import AuthHome from "../screens/Auth/AuthHome";
 import LogIn from "../screens/Auth/LogIn";
 import SignUp from "../screens/Auth/SignUp";
+import Confirm from "../screens/Auth/Confirm";
 
 const Stack = createStackNavigator();
 
@@ -18,9 +19,10 @@ export default () => (
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen name="LogIn" component={LogIn} />
       <Stack.Screen name="Home" component={AuthHome} />
+      <Stack.Screen name="LogIn" component={LogIn} />
       <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Confirm" component={Confirm} />
     </Stack.Navigator>
   </NavigationContainer>
 );

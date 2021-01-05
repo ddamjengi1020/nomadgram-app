@@ -60,7 +60,7 @@ AuthInput.propTypes = {
     "email-address",
     "phone-pad",
   ]),
-  onSubmitEditing: PropTypes.fuc,
+  onSubmitEditing: PropTypes.func,
   returnKeyType: PropTypes.oneOf(["done", "go", "next", "search", "send"]),
 };
 

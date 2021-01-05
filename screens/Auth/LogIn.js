@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, TouchableWithoutFeedback, Keyboard } from "react-native";
 import styled from "styled-components";
@@ -16,7 +17,9 @@ const Container = styled(View)`
 
 export default () => {
   const [loading, setLoading] = useState(false);
-  const email = useInput("");
+  const { navigate } = useNavigation();
+  const { params } = useRoute();
+  const email = useInput(params?.email || "");
   const [requestSecretMutation] = useMutation(LOG_IN, {
     variables: { email: email.value },
   });
@@ -24,19 +27,27 @@ export default () => {
   const handleLogin = async () => {
     const { value } = email;
     if (value === "") {
-      return toastShowFunc("Email can't be empty");
+      return toastShowFunc("error", "Email can't be empty");
     } else if (!value.includes("@")) {
-      return toastShowFunc("Please write an email");
+      return toastShowFunc("error", "Please write an email");
     } else if (!emailRegex.test(value)) {
-      return toastShowFunc("That is invalid Email");
+      return toastShowFunc("error", "That is invalid Email");
     }
     try {
       setLoading(true);
-      await requestSecretMutation();
-      // To do navigate part
+      const {
+        data: { requestSecret },
+      } = await requestSecretMutation();
+      if (requestSecret) {
+        toastShowFunc("success", "Check your email");
+        navigate("Confirm", { email: email.value });
+      } else {
+        toastShowFunc("info", "Email not found, please create new one");
+        navigate("SignUp", { email: email.value });
+      }
     } catch (error) {
       console.log(error);
-      toastShowFunc("Can't log in now😥");
+      toastShowFunc("error", "Can't log in now😥");
     } finally {
       setLoading(false);
     }
