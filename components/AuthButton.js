@@ -8,7 +8,8 @@ import constants from "../constants";
 const Container = styled(TouchableOpacity)``;
 
 const Button = styled(View)`
-  background-color: ${(props) => props.theme.orangeColor};
+  background-color: ${(props) =>
+    props.bgColor ? props.bgColor : props.theme.orangeColor};
   width: ${constants.width / 2}px;
   padding: 10px 0;
   border-radius: 5px;
@@ -20,10 +21,15 @@ const ButtonText = styled(Text)`
   font-weight: 700;
 `;
 
-export default function AuthButton({ loading = false, text, onPress }) {
+export default function AuthButton({
+  loading = false,
+  text,
+  onPress,
+  bgColor = null,
+}) {
   return (
     <Container disabled={loading} onPress={onPress}>
-      <Button>
+      <Button bgColor={bgColor}>
         <ButtonText>
           {loading ? <ActivityIndicator color="white" /> : text}
         </ButtonText>

@@ -11,6 +11,7 @@ const ViewS = styled(View)`
   flex: 1;
   justify-content: center;
   align-items: center;
+  background-color: ${(prop) => prop.theme.bgColor};
 `;
 
 const Logo = styled(Image)`

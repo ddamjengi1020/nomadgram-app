@@ -8,11 +8,26 @@ import AuthInput from "../../components/AuthInput";
 import useInput from "../../hooks/useInput";
 import { emailRegex, userNameRegex, toastShowFunc } from "../../utils";
 import { CREATE_ACCOUNT } from "./AuthQuery";
+import {
+  makeRedirectUri,
+  useAuthRequest,
+  get,
+  useAutoDiscovery,
+} from "expo-auth-session";
 
 const Container = styled(View)`
   flex: 1;
   justify-content: center;
   align-items: center;
+  background-color: ${(props) => props.theme.bgColor};
+`;
+
+const GhContainer = styled(View)`
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top-width: 0.5px;
+  border-color: ${(props) => props.theme.lightGreyColor};
+  border-style: solid;
 `;
 
 export default () => {
@@ -31,6 +46,10 @@ export default () => {
       userName: userName.value,
     },
   });
+
+  const GhAuthenticate = async () => {
+    console.log(response);
+  };
 
   const handleSignUp = async () => {
     if (
@@ -99,6 +118,14 @@ export default () => {
           returnKeyType="go"
         />
         <AuthButton loading={loading} text={"Sign Up"} onPress={handleSignUp} />
+        <GhContainer>
+          <AuthButton
+            loading={loading}
+            text={"Github"}
+            bgColor={"#24282d"}
+            onPress={GhAuthenticate}
+          />
+        </GhContainer>
       </Container>
     </TouchableWithoutFeedback>
   );
