@@ -8,12 +8,8 @@ import AuthInput from "../../components/AuthInput";
 import useInput from "../../hooks/useInput";
 import { emailRegex, userNameRegex, toastShowFunc } from "../../utils";
 import { CREATE_ACCOUNT } from "./AuthQuery";
-import {
-  makeRedirectUri,
-  useAuthRequest,
-  get,
-  useAutoDiscovery,
-} from "expo-auth-session";
+import axios from "axios";
+import * as Google from "expo-auth-session/providers/google";
 
 const Container = styled(View)`
   flex: 1;
@@ -22,12 +18,17 @@ const Container = styled(View)`
   background-color: ${(props) => props.theme.bgColor};
 `;
 
-const GhContainer = styled(View)`
+const GgContainer = styled(View)`
   margin-top: 15px;
   padding-top: 15px;
   border-top-width: 0.5px;
   border-color: ${(props) => props.theme.lightGreyColor};
   border-style: solid;
+`;
+
+const GhContainer = styled(GgContainer)`
+  border-top-width: 0;
+  margin-top: 0;
 `;
 
 export default () => {
@@ -47,8 +48,38 @@ export default () => {
     },
   });
 
-  const GhAuthenticate = async () => {
-    console.log(response);
+  const [_, __, promptAsync] = Google.useAuthRequest({
+    expoClientId:
+      "951558989070-q7sfah1rpia50b6sqtjssm7l759om6m5.apps.googleusercontent.com",
+  });
+
+  const githubAuth = async () => {
+    return null;
+  };
+
+  const googleAuth = async () => {
+    try {
+      const result = await promptAsync();
+      if (result.type === "success") {
+        const { data } = await axios({
+          url: "https://www.googleapis.com/userinfo/v2/me",
+          responseType: "json",
+          method: "get",
+          headers: {
+            Authorization: `Bearer ${result.authentication.accessToken}`,
+          },
+        });
+        email.setValue(data.email);
+        firstName.setValue(data.family_name);
+        lastName.setValue(data.given_name);
+        userName.setValue("");
+      }
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSignUp = async () => {
@@ -118,12 +149,18 @@ export default () => {
           returnKeyType="go"
         />
         <AuthButton loading={loading} text={"Sign Up"} onPress={handleSignUp} />
+        <GgContainer>
+          <AuthButton
+            text={"with Google"}
+            bgColor={"#c3313e"}
+            onPress={googleAuth}
+          />
+        </GgContainer>
         <GhContainer>
           <AuthButton
-            loading={loading}
-            text={"Github"}
-            bgColor={"#24282d"}
-            onPress={GhAuthenticate}
+            text={"with Github"}
+            bgColor={"#231f20"}
+            onPress={githubAuth}
           />
         </GhContainer>
       </Container>

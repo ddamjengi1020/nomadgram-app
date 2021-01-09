@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Text, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import constants from "../../constants";
 import AuthButton from "../../components/AuthButton";
 import LogInButton from "../../components/LogInButton";
