@@ -1,17 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text } from "react-native";
+import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styled from "styled-components";
+import NavIcon from "./NavIcon";
 
-const Container = styled(TouchableOpacity)``;
-const InnerText = styled(Text)``;
+const Container = styled(View)`
+  margin-right: 15px;
+`;
+const Button = styled(TouchableOpacity)`
+  padding: 5px;
+`;
 
 export default () => {
   const navigation = useNavigation();
   return (
-    <Container onPress={() => navigation.navigate("Message")}>
-      <InnerText>Go Message</InnerText>
+    <Container>
+      <Button onPress={() => navigation.navigate("Message")}>
+        <NavIcon name="paper-plane-outline" />
+      </Button>
     </Container>
   );
 };

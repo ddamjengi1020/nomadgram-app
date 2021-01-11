@@ -10,7 +10,7 @@ const Container = styled(View)`
 
 const Input = styled(TextInput)`
   width: ${constants.width / 2}px;
-  padding: 4px 10px;
+  padding: 8px 10px;
   border: 1px solid
     ${(prop) =>
       prop.isFocused ? prop.theme.orangeColor : prop.theme.darkGreyColor};

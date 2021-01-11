@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components";
 import AsyncStorage from "@react-native-community/async-storage";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
@@ -53,6 +54,7 @@ export default function App() {
     <ApolloProvider client={clientS}>
       <ThemeProvider theme={theme}>
         <AuthProvider checkLoggedIn={initLoggedIn}>
+          <StatusBar barStyle="dark-content" backgroundColor={theme.bgColor} />
           <NavController />
           <Toast ref={(ref) => Toast.setRef(ref)} />
         </AuthProvider>

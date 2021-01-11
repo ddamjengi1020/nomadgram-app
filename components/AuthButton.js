@@ -13,6 +13,9 @@ const Button = styled(View)`
   width: ${constants.width / 2}px;
   padding: 10px 0;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ButtonText = styled(Text)`

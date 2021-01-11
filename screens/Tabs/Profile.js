@@ -7,6 +7,7 @@ export default () => (
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
+      backgroundColor: "white",
     }}
   >
     <Text>Profile</Text>
