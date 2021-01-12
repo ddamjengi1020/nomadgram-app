@@ -10,6 +10,7 @@ const NavIcon = ({
   size = 26,
 }) => (
   <Ionicons
+    style={{ padding: 5 }}
     name={name}
     size={size}
     color={focused ? theme.orangeColor : color}

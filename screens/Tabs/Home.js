@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { ActivityIndicator, Button, Text, View } from "react-native";
+import { ScrollView, Text, View, RefreshControl } from "react-native";
 import { useLogOut } from "../../components/AuthContext";
 import Loader from "../../components/Loader";
+import Post from "../../components/Post";
+import theme from "../../theme";
 
 const SEE_FEED = gql`
   {
@@ -40,18 +42,34 @@ const SEE_FEED = gql`
 `;
 
 export default () => {
-  const { loading, data } = useQuery(SEE_FEED);
-  console.log(loading, data);
+  const { loading, data, refetch } = useQuery(SEE_FEED);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const refresh = async () => {
+    try {
+      setRefreshing(true);
+      await refetch();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const RefreshC = (
+    <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+  );
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "white",
-      }}
+    <ScrollView
+      refreshControl={RefreshC}
+      style={{ backgroundColor: theme.bgColor }}
     >
-      {loading ? <Loader /> : <Text>We have Feed data!</Text>}
-    </View>
+      {loading ? (
+        <Loader />
+      ) : (
+        data?.seeFeed?.map((post) => <Post key={post.id} {...post} />)
+      )}
+    </ScrollView>
   );
 };

@@ -8,9 +8,7 @@ import NavIcon from "./NavIcon";
 const Container = styled(View)`
   margin-right: 15px;
 `;
-const Button = styled(TouchableOpacity)`
-  padding: 5px;
-`;
+const Button = styled(TouchableOpacity)``;
 
 export default () => {
   const navigation = useNavigation();
