@@ -18,19 +18,34 @@ const UserContainer = styled.View`
   margin-left: 10px;
 `;
 const BoldText = styled.Text`
-  font-size: 17px;
+  font-size: ${(props) => props.fontSize}px;
+  font-weight: bold;
 `;
 const LightText = styled.Text`
-  font-size: 13px;
+  font-size: ${(props) => props.fontSize}px;
   color: ${theme.darkGreyColor};
 `;
 const CaptionNav = styled.View`
   display: flex;
   flex-direction: row;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
+`;
+const CaptionContainer = styled.View`
+  padding: 0 15px;
+`;
+const LikeCount = styled.Text``;
+
+const CaptionContent = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 `;
 
-const Post = ({ user, location, files }) => {
+const CaptionText = styled.Text`
+  margin: 0 10px;
+`;
+
+const Post = ({ user, location, files, caption, likes }) => {
   return (
     <Container>
       <Header>
@@ -42,9 +57,9 @@ const Post = ({ user, location, files }) => {
         </Touchable>
         <UserContainer>
           <Touchable>
-            <BoldText>{user.userName}</BoldText>
+            <BoldText fontSize={17}>{user.userName}</BoldText>
           </Touchable>
-          {location && <LightText>{location}</LightText>}
+          {location && <LightText fontSize={14}>{location}</LightText>}
         </UserContainer>
       </Header>
       <Slider files={files} />
@@ -59,6 +74,40 @@ const Post = ({ user, location, files }) => {
           <NavIcon name={"paper-plane-outline"} />
         </Touchable>
       </CaptionNav>
+      <CaptionContainer>
+        {likes.length !== 0 && (
+          <LikeCount>
+            {likes.length > 2 ? (
+              <>
+                {"Liked by "}
+                <BoldText fontSize={15}>{likes[0].user.userName}</BoldText>
+                {" and "}
+                <BoldText fontSize={15}>Other</BoldText>
+              </>
+            ) : (
+              <>
+                {"Liked by "}
+                <BoldText fontSize={15}>{likes[0].user.userName}</BoldText>
+              </>
+            )}
+          </LikeCount>
+        )}
+        <CaptionContent>
+          <Touchable>
+            <BoldText fontSize={14}>{user.userName}</BoldText>
+          </Touchable>
+          <Touchable>
+            <CaptionText>
+              {caption.length > 20 ? `${caption.slice(0, 18)}...` : caption}
+            </CaptionText>
+          </Touchable>
+          {caption.length > 20 && (
+            <Touchable>
+              <LightText fontSize={14}>more</LightText>
+            </Touchable>
+          )}
+        </CaptionContent>
+      </CaptionContainer>
     </Container>
   );
 };
