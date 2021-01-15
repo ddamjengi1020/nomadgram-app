@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import theme from "../theme";
 import { View, Animated } from "react-native";
-import { useRef } from "react";
 
 const Wrapper = styled(View)`
   flex: 1;

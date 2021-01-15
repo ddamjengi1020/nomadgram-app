@@ -22,7 +22,19 @@ export default function App() {
       await Font.loadAsync({
         ...Ionicons.font,
       });
-      const cache = new InMemoryCache();
+      const cache = new InMemoryCache({
+        typePolicies: {
+          Post: {
+            fields: {
+              likes: {
+                merge(_, incoming = []) {
+                  return incoming;
+                },
+              },
+            },
+          },
+        },
+      });
 
       await persistCache({
         cache,

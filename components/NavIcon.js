@@ -8,8 +8,10 @@ const NavIcon = ({
   name,
   color = theme.blackColor,
   size = 26,
+  onPress = null,
 }) => (
   <Ionicons
+    onPress={onPress}
     style={{ padding: 5 }}
     name={name}
     size={size}
@@ -22,6 +24,7 @@ NavIcon.propTypes = {
   color: PropTypes.string,
   size: PropTypes.number,
   focused: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default NavIcon;

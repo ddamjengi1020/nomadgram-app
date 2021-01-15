@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, Image, View } from "react-native";
+import { gql } from "@apollo/client/core";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import theme from "../theme";
 import Slider from "./Slider";
 import NavIcon from "./NavIcon";
+import { useMutation } from "@apollo/client";
+
+const TOGGLE_LIKE = gql`
+  mutation toggleLike($postId: String!) {
+    toggleLike(postId: $postId)
+  }
+`;
 
 const Container = styled.View``;
 const Header = styled.View`
@@ -39,13 +47,39 @@ const CaptionContent = styled.View`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  margin: 6px 0;
 `;
 
 const CaptionText = styled.Text`
   margin: 0 10px;
 `;
 
-const Post = ({ user, location, files, caption, likes }) => {
+const MoreComments = styled.View``;
+
+const Post = ({
+  id,
+  isLiked: isLikedP,
+  user,
+  location,
+  files,
+  caption,
+  likes,
+  comments,
+}) => {
+  const [isLiked, setIsLiked] = useState(isLikedP);
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
+    variables: {
+      postId: id,
+    },
+  });
+  const toggleLike = async () => {
+    setIsLiked((prev) => !prev);
+    try {
+      await toggleLikeMutation();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <Container>
       <Header>
@@ -65,7 +99,11 @@ const Post = ({ user, location, files, caption, likes }) => {
       <Slider files={files} />
       <CaptionNav>
         <Touchable>
-          <NavIcon name={"heart-outline"} />
+          <NavIcon
+            name={isLiked ? "heart" : "heart-outline"}
+            color={isLiked ? theme.redColor : theme.blackColor}
+            onPress={toggleLike}
+          />
         </Touchable>
         <Touchable>
           <NavIcon name={"chatbubble-outline"} />
@@ -77,7 +115,7 @@ const Post = ({ user, location, files, caption, likes }) => {
       <CaptionContainer>
         {likes.length !== 0 && (
           <LikeCount>
-            {likes.length > 2 ? (
+            {likes.length > 1 ? (
               <>
                 {"Liked by "}
                 <BoldText fontSize={15}>{likes[0].user.userName}</BoldText>
@@ -107,6 +145,13 @@ const Post = ({ user, location, files, caption, likes }) => {
             </Touchable>
           )}
         </CaptionContent>
+        <MoreComments>
+          <Touchable>
+            <LightText fontSize={14}>
+              See all {comments.length} comments
+            </LightText>
+          </Touchable>
+        </MoreComments>
       </CaptionContainer>
     </Container>
   );
