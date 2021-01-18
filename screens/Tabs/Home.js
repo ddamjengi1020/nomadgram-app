@@ -5,40 +5,15 @@ import { useLogOut } from "../../components/AuthContext";
 import Loader from "../../components/Loader";
 import Post from "../../components/Post";
 import theme from "../../theme";
+import { FRAGEMENT_IN_POST } from "../fragments";
 
 const SEE_FEED = gql`
   {
     seeFeed {
-      id
-      location
-      caption
-      isLiked
-      user {
-        id
-        userName
-        avatar
-      }
-      likes {
-        id
-        user {
-          userName
-        }
-      }
-      createAt
-      files {
-        id
-        url
-      }
-      comments {
-        id
-        text
-        user {
-          id
-          userName
-        }
-      }
+      ...PostParts
     }
   }
+  ${FRAGEMENT_IN_POST}
 `;
 
 export default () => {

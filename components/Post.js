@@ -7,6 +7,7 @@ import theme from "../theme";
 import Slider from "./Slider";
 import NavIcon from "./NavIcon";
 import { useMutation } from "@apollo/client";
+import constants from "../constants";
 
 const TOGGLE_LIKE = gql`
   mutation toggleLike($postId: String!) {
@@ -14,7 +15,9 @@ const TOGGLE_LIKE = gql`
   }
 `;
 
-const Container = styled.View``;
+const Container = styled.View`
+  margin-bottom: 10px;
+`;
 const Header = styled.View`
   padding: 10px;
   display: flex;
@@ -44,6 +47,7 @@ const CaptionContainer = styled.View`
 const LikeCount = styled.Text``;
 
 const CaptionContent = styled.View`
+  width: ${constants.width / 1.2}px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -66,12 +70,16 @@ const Post = ({
   likes,
   comments,
 }) => {
+  const [isMore, setIsMore] = useState(false);
   const [isLiked, setIsLiked] = useState(isLikedP);
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
     variables: {
       postId: id,
     },
   });
+  const triggerMore = () => {
+    setIsMore(true);
+  };
   const toggleLike = async () => {
     setIsLiked((prev) => !prev);
     try {
@@ -136,21 +144,25 @@ const Post = ({
           </Touchable>
           <Touchable>
             <CaptionText>
-              {caption.length > 20 ? `${caption.slice(0, 18)}...` : caption}
+              {caption.length > 20 && !isMore
+                ? `${caption.slice(0, 18)}...`
+                : caption}
             </CaptionText>
           </Touchable>
-          {caption.length > 20 && (
-            <Touchable>
+          {caption.length > 20 && !isMore && (
+            <Touchable onPress={triggerMore}>
               <LightText fontSize={14}>more</LightText>
             </Touchable>
           )}
         </CaptionContent>
         <MoreComments>
-          <Touchable>
-            <LightText fontSize={14}>
-              See all {comments.length} comments
-            </LightText>
-          </Touchable>
+          {comments.length > 0 && (
+            <Touchable>
+              <LightText fontSize={14}>
+                See all {comments.length} comments
+              </LightText>
+            </Touchable>
+          )}
         </MoreComments>
       </CaptionContainer>
     </Container>

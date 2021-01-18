@@ -5,13 +5,14 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from "@react-navigation/stack";
+import constants from "../constants";
+import NavIcon from "../components/NavIcon";
 import MessageLink from "../components/MessageLink";
 import Home from "../screens/Tabs/Home";
 import Search from "../screens/Tabs/Search";
 import Notification from "../screens/Tabs/Notification";
 import Profile from "../screens/Tabs/Profile";
-import constants from "../constants";
-import NavIcon from "../components/NavIcon";
+import Detail from "../screens/StackInTabs/Detail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -26,16 +27,22 @@ const StackFactory = (components, customOptions) => {
         ...customOptions,
       }}
     >
-      {components.map((component, idx) => {
-        const { route, name } = component;
-        return <Stack.Screen key={idx} name={name} component={route} />;
-      })}
+      {components.map((component, idx) => (
+        <Stack.Screen
+          key={idx}
+          name={component.name || " "}
+          component={component.route}
+        />
+      ))}
     </Stack.Navigator>
   );
 };
 
 export default () => (
-  <Tab.Navigator tabBarOptions={{ showLabel: false }}>
+  <Tab.Navigator
+    tabBarOptions={{ showLabel: false, keyboardHidesTabBar: true }}
+    initialRouteName={"Search"}
+  >
     <Tab.Screen
       name="Home"
       options={{
@@ -70,7 +77,9 @@ export default () => (
         ),
       }}
     >
-      {() => StackFactory([{ route: Search, name: "Search" }])}
+      {() =>
+        StackFactory([{ route: Search }, { route: Detail, name: "Detail" }])
+      }
     </Tab.Screen>
     <Tab.Screen
       name="Add"
