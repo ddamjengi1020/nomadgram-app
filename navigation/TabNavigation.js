@@ -12,19 +12,19 @@ import Home from "../screens/Tabs/Home";
 import Search from "../screens/Tabs/Search";
 import Notification from "../screens/Tabs/Notification";
 import Profile from "../screens/Tabs/Profile";
-import Detail from "../screens/StackInTabs/Detail";
+import PostDetail from "../screens/StackInTabs/PostDetail";
+import UserDetail from "../screens/StackInTabs/UserDetail";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const StackFactory = (components, customOptions) => {
+const StackFactory = (components) => {
   return (
     <Stack.Navigator
       initialRouteName={components[0].name}
       screenOptions={{
         // headerStyle: { height: 80 }, // Maybe..
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        ...customOptions,
       }}
     >
       {components.map((component, idx) => (
@@ -52,18 +52,10 @@ export default () => (
       }}
     >
       {() =>
-        StackFactory([{ route: Home, name: "home" }], {
-          headerRight: () => <MessageLink />,
-          headerTitle: () => (
-            <Image
-              source={require("../assets/mainLogo.png")}
-              style={{
-                width: constants.width / 2.5,
-              }}
-              resizeMode="contain"
-            />
-          ),
-        })
+        StackFactory([
+          { route: Home, name: "home" },
+          { route: UserDetail, name: "UserDetail" },
+        ])
       }
     </Tab.Screen>
     <Tab.Screen
@@ -78,7 +70,11 @@ export default () => (
       }}
     >
       {() =>
-        StackFactory([{ route: Search }, { route: Detail, name: "Detail" }])
+        StackFactory([
+          { route: Search },
+          { route: PostDetail, name: "PostDetail" },
+          { route: UserDetail, name: "UserDetail" },
+        ])
       }
     </Tab.Screen>
     <Tab.Screen

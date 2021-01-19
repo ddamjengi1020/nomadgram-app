@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Text, Image, View } from "react-native";
-import { gql } from "@apollo/client/core";
+import { useNavigation } from "@react-navigation/native";
+import { useMutation, gql } from "@apollo/client";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import theme from "../theme";
 import Slider from "./Slider";
 import NavIcon from "./NavIcon";
-import { useMutation } from "@apollo/client";
 import constants from "../constants";
 
 const TOGGLE_LIKE = gql`
@@ -70,6 +70,7 @@ const Post = ({
   likes,
   comments,
 }) => {
+  const { navigate } = useNavigation();
   const [isMore, setIsMore] = useState(false);
   const [isLiked, setIsLiked] = useState(isLikedP);
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
@@ -90,20 +91,22 @@ const Post = ({
   };
   return (
     <Container>
-      <Header>
-        <Touchable>
+      <Touchable
+        onPress={() =>
+          navigate("UserDetail", { id: user.id, userName: user.userName })
+        }
+      >
+        <Header>
           <Image
             source={{ uri: user.avatar }}
             style={{ width: 40, height: 40, borderRadius: 20 }}
           />
-        </Touchable>
-        <UserContainer>
-          <Touchable>
+          <UserContainer>
             <BoldText fontSize={17}>{user.userName}</BoldText>
-          </Touchable>
-          {location && <LightText fontSize={14}>{location}</LightText>}
-        </UserContainer>
-      </Header>
+            {location && <LightText fontSize={14}>{location}</LightText>}
+          </UserContainer>
+        </Header>
+      </Touchable>
       <Slider files={files} />
       <CaptionNav>
         <Touchable>

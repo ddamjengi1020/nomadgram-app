@@ -5,6 +5,12 @@ import SearchBar from "../../components/SearchBar";
 import Loader from "../../components/Loader";
 import CardBySearch from "../../components/CardBySearch";
 import theme from "../../theme";
+import styled from "styled-components";
+
+const Container = styled.View`
+  background-color: ${theme.bgColor};
+  flex: 1;
+`;
 
 const SEARCH = gql`
   query searchPost($term: String!) {
@@ -66,19 +72,22 @@ export default ({ navigation }) => {
     });
   }, [navigation, term]);
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <FlatList
-      style={{ backgroundColor: theme.bgColor }}
-      columnWrapperStyle={{ flex: 1, justifyContent: "flex-start" }}
-      data={data?.searchPost}
-      horizontal={false}
-      numColumns={3}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-      renderItem={({ item }) => <CardBySearch {...item} />}
-      keyExtractor={(item) => item.id}
-    />
+  return (
+    <Container>
+      {loading ? (
+        <Loader />
+      ) : (
+        <FlatList
+          columnWrapperStyle={{ flex: 1, justifyContent: "flex-start" }}
+          data={data?.searchPost}
+          horizontal={false}
+          numColumns={3}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          renderItem={({ item }) => <CardBySearch {...item} />}
+          keyExtractor={(item) => item.id}
+        />
+      )}
+    </Container>
   );
 };

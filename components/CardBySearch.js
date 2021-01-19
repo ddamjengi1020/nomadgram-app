@@ -11,7 +11,7 @@ const CardBySearch = ({ files, id }) => {
   return (
     <TouchableOpacity
       style={{ borderWidth: 1, borderColor: theme.bgColor }}
-      onPress={() => navigate("Detail", { id })}
+      onPress={() => navigate("PostDetail", { id })}
     >
       <Image
         source={{ uri: files[0].url }}

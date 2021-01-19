@@ -1,15 +1,26 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { gql, useQuery } from "@apollo/client";
+import Loader from "../../components/Loader";
+import { USER_FRAGEMENT } from "./fragments";
+import UserProfile from "../../components/UserProfile";
 
-export default () => (
-  <View
-    style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "white",
-    }}
-  >
-    <Text>Profile</Text>
-  </View>
-);
+const GET_ME = gql`
+  {
+    me {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGEMENT}
+`;
+
+export default ({ navigation }) => {
+  const { data, loading, refetch } = useQuery(GET_ME);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: data?.me?.userName,
+    });
+  });
+
+  return loading ? <Loader /> : <UserProfile {...data?.me} />;
+};
