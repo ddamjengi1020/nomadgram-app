@@ -41,7 +41,7 @@ const StackFactory = (components) => {
 export default () => (
   <Tab.Navigator
     tabBarOptions={{ showLabel: false, keyboardHidesTabBar: true }}
-    initialRouteName={"Search"}
+    initialRouteName={"Profile"}
   >
     <Tab.Screen
       name="Home"
