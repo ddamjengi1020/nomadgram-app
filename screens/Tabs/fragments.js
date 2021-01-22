@@ -12,9 +12,32 @@ export const USER_FRAGEMENT = gql`
     avatar
     posts {
       id
+      location
+      caption
+      isLiked
+      user {
+        id
+        userName
+        avatar
+      }
+      likes {
+        id
+        user {
+          userName
+        }
+      }
+      createAt
       files {
         id
         url
+      }
+      comments {
+        id
+        text
+        user {
+          id
+          userName
+        }
       }
     }
     followers {

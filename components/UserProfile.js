@@ -4,6 +4,8 @@ import styled from "styled-components";
 import theme from "../theme";
 import constants from "../constants";
 import NavIcon from "./NavIcon";
+import CardBySearch from "./CardBySearch";
+import Post from "./Post";
 
 const Container = styled.View``;
 
@@ -68,9 +70,12 @@ const GridButton = styled.View`
   width: ${constants.width / 2}px;
   display: flex;
   align-items: center;
-  border-bottom-width: ${(props) =>
-    props.isGrid ? "1px" : props.isList ? "1px" : 0};
+  border-bottom-width: ${(props) => (props.isGrid ? "1px" : 0)};
   border-color: ${theme.darkGreyColor};
+`;
+
+const ListButton = styled(GridButton)`
+  border-bottom-width: ${(props) => (!props.isGrid ? "1px" : 0)};
 `;
 
 const UserProfile = ({
@@ -82,14 +87,11 @@ const UserProfile = ({
   isSelf,
 }) => {
   const [isGrid, setIsGrid] = useState(true);
-  const [isList, setIsList] = useState(false);
   const gridTrigger = () => {
     setIsGrid(true);
-    setIsList(false);
   };
   const listTrigger = () => {
     setIsGrid(false);
-    setIsList(true);
   };
   return (
     <Container>
@@ -136,11 +138,18 @@ const UserProfile = ({
             </GridButton>
           </Touchable>
           <Touchable onPress={listTrigger}>
-            <GridButton isList={isList}>
+            <ListButton isGrid={isGrid}>
               <NavIcon name={"list-outline"} />
-            </GridButton>
+            </ListButton>
           </Touchable>
         </GridContainer>
+        {posts?.map((post) =>
+          isGrid ? (
+            <CardBySearch key={post.id} files={post.files} id={post.id} />
+          ) : (
+            <Post key={post.id} {...post} />
+          )
+        )}
       </BodySection>
     </Container>
   );
@@ -158,10 +167,25 @@ UserProfile.propTypes = {
   posts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      files: PropTypes.arrayOf(
+      location: PropTypes.string,
+      caption: PropTypes.string.isRequired,
+      user: PropTypes.objectOf(PropTypes.string).isRequired,
+      likes: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired,
+          user: PropTypes.objectOf(PropTypes.string.isRequired),
+        })
+      ),
+      isLiked: PropTypes.bool.isRequired,
+      createAt: PropTypes.string.isRequired,
+      files: PropTypes.arrayOf(
+        PropTypes.objectOf(PropTypes.string.isRequired).isRequired
+      ).isRequired,
+      comments: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          text: PropTypes.string.isRequired,
+          user: PropTypes.objectOf(PropTypes.string.isRequired),
         })
       ),
     })

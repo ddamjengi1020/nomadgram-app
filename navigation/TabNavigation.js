@@ -54,6 +54,7 @@ export default () => (
       {() =>
         StackFactory([
           { route: Home, name: "home" },
+          { route: PostDetail, name: "PostDetail" },
           { route: UserDetail, name: "UserDetail" },
         ])
       }
@@ -116,7 +117,13 @@ export default () => (
         ),
       }}
     >
-      {() => StackFactory([{ route: Profile, name: "Profile" }])}
+      {() =>
+        StackFactory([
+          { route: Profile, name: "Profile" },
+          { route: PostDetail, name: "PostDetail" },
+          { route: UserDetail, name: "UserDetail" },
+        ])
+      }
     </Tab.Screen>
   </Tab.Navigator>
 );
