@@ -101,19 +101,19 @@ const UserProfile = ({
           <RelationInfo>
             <RelationItem>
               <Touchable>
-                <BoldText size={17}>{posts.length}</BoldText>
+                <BoldText size={17}>{posts?.length}</BoldText>
                 <LightText>posts</LightText>
               </Touchable>
             </RelationItem>
             <RelationItem>
               <Touchable>
-                <BoldText size={17}>{followers.length}</BoldText>
+                <BoldText size={17}>{followers?.length}</BoldText>
                 <LightText>followers</LightText>
               </Touchable>
             </RelationItem>
             <RelationItem>
               <Touchable>
-                <BoldText size={17}>{following.length}</BoldText>
+                <BoldText size={17}>{following?.length}</BoldText>
                 <LightText>following</LightText>
               </Touchable>
             </RelationItem>

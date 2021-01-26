@@ -39,6 +39,8 @@ export default () => {
       const {
         data: { requestSecret },
       } = await requestSecretMutation();
+      console.log(requestSecret);
+      console.log(email);
       if (requestSecret) {
         toastShowFunc("success", "Check your email");
         navigate("Confirm", { email: email.value });
