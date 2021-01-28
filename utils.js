@@ -10,6 +10,6 @@ export const toastShowFunc = (type, text1) =>
     position: "top",
     visibilityTime: 3000,
     autoHide: true,
-    topOffset: 50,
+    topOffset: 40,
     text1,
   });

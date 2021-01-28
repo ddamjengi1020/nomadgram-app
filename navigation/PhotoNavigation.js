@@ -4,11 +4,12 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from "@react-navigation/stack";
+import { Platform } from "react-native";
 import SelectPhoto from "../screens/Photo/SelectPhoto";
 import TakePhoto from "../screens/Photo/TakePhoto";
 import UploadPhoto from "../screens/Photo/UploadPhoto";
 import theme from "../theme";
-import constants from "../constants";
+import NavIcon from "../components/NavIcon";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -37,7 +38,7 @@ const PhotoTabs = () => (
 export default () => (
   <Stack.Navigator
     screenOptions={{
-      ardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
     }}
   >
     <Stack.Screen
@@ -45,6 +46,21 @@ export default () => (
       component={PhotoTabs}
       options={{ headerShown: false }}
     />
-    <Stack.Screen name="UploadPhoto" component={UploadPhoto} />
+    <Stack.Screen
+      name="UploadPhoto"
+      component={UploadPhoto}
+      options={{
+        headerTitle: "",
+        headerBackImage: () => (
+          <NavIcon
+            name={
+              Platform.OS === "ios" ? "ios-chevron-back" : "md-chevron-back"
+            }
+            color={theme.orangeColor}
+            size={30}
+          />
+        ),
+      }}
+    />
   </Stack.Navigator>
 );

@@ -41,7 +41,7 @@ const TakePictureBtn = styled.TouchableOpacity`
   border-radius: 50px;
 `;
 
-export default () => {
+export default ({ navigation }) => {
   const cameraRef = useRef(null);
   const [hasPermission, setHasPermission] = useState(false);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -53,9 +53,10 @@ export default () => {
       // const { uri } = await cameraRef.current.takePictureAsync({
       //   quality: 1,
       // });
-      // const result = await MediaLibrary.createAssetAsync(uri);
+      // const savedPhoto = await MediaLibrary.createAssetAsync(uri);
       console.log("Captured your screen!");
       setCanTakePhoto(false);
+      if (savedPhoto) navigation.navigate("UploadPhoto");
     } catch (e) {
       console.log(e);
     }
