@@ -77,16 +77,16 @@ export default ({ navigation }) => {
     });
   });
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <ScrollView
       refreshControl={RefreshC}
       style={{ backgroundColor: theme.bgColor, flex: 1 }}
     >
-      {loading ? (
-        <Loader />
-      ) : (
-        data?.seeFeed?.map((post) => <Post key={post.id} {...post} />)
-      )}
+      {data?.seeFeed?.map((post) => (
+        <Post key={post.id} {...post} />
+      ))}
     </ScrollView>
   );
 };

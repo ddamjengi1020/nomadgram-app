@@ -57,12 +57,30 @@ export default ({ route, navigation }) => {
       toastShowFunc("error", "Please fill the caption");
     } else {
       const formData = new FormData();
-      formData.append("file", photo);
-      await axios.post("http://172.30.1.21:5000/api/upload/", formData, {
-        headers: {
-          "Content-Type": "multiple/form-data",
-        },
+      const typeDetail = photo.filename.split(".")[1].toLowerCase();
+      formData.append("file", {
+        name: photo.filename,
+        uri: photo.uri,
+        type: `image/${typeDetail}`,
       });
+      try {
+        const {
+          data: { path },
+        } = await axios({
+          url: "http://172.30.1.21:5000/api/upload",
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: formData,
+        });
+      } catch (error) {
+        // for (const key of Object.keys(error)) {
+        //   console.log(key);
+        //   console.log(error[key]);
+        // }
+        console.log(error);
+      }
     }
   };
 

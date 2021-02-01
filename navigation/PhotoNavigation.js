@@ -23,7 +23,7 @@ const PhotoTabs = () => (
       },
       style: {
         backgroundColor: theme.bgColor,
-        marginBottom: 20,
+        marginBottom: 0,
       },
       labelStyle: {
         fontWeight: "bold",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Image, ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
@@ -26,7 +26,7 @@ const PhotoItem = styled.Image`
 const ToUploadBtn = styled.TouchableOpacity`
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 30px;
   border-radius: 10px;
   background-color: ${theme.orangeColor};
   padding: 7px 15px;
@@ -100,7 +100,7 @@ export default ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getPermission();
   }, [fetchCount]);
 
@@ -110,7 +110,7 @@ export default ({ navigation }) => {
     <View>
       {hasPermission ? (
         <>
-          <SelectedPhoto source={{ uri: selected.uri }} />
+          <SelectedPhoto source={{ uri: selected?.uri }} />
           <ToUploadBtn onPress={handledNextPage}>
             <ButtonText>Next</ButtonText>
           </ToUploadBtn>
