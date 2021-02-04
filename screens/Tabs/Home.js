@@ -9,7 +9,7 @@ import theme from "../../theme";
 import { useLayoutEffect } from "react";
 import constants from "../../constants";
 
-const SEE_FEED = gql`
+export const SEE_FEED = gql`
   {
     seeFeed {
       id
